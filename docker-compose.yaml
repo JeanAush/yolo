@@ -2,7 +2,7 @@ version: '3'
 services:
   client:
     container_name: client-container
-    image: jeanaush/img-a:18.19.1
+    image: jeanaush/img-a:v2.0.0
     build:
       context: ./client
     ports:
@@ -13,9 +13,12 @@ services:
       - client-volume:/app
     depends_on:
       - backend
+    environment:
+      - REACT_APP_BACKEND_URL=http://backend:5000/api  # Example environment variable for React app
+
   backend:
     container_name: backend-container
-    image: jeanaush/img-b:18.19.1
+    image: jeanaush/img-b:v2.0.0
     build:
       context: ./backend
     ports:
@@ -25,9 +28,10 @@ services:
     volumes:
       - backend-volume:/app
     environment:
-      - MONGO_URI=mongodb://mongodb:27017/ecommerce
+      - MONGODB_URI=mongodb://mongodb:27017/yolomy  # Example MongoDB URI
     depends_on:
       - mongodb
+
   mongodb:
     container_name: yolo-mongodb
     image: mongo:latest
@@ -37,6 +41,7 @@ services:
       - yolo-network
     volumes:
       - mongodb-data:/data/db
+
 volumes:
   backend-volume:
   client-volume:
