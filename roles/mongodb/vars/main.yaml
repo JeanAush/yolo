@@ -1,0 +1,6 @@
+---
+mongodb_image: "{{ mongodb_image | default('mongo:latest') }}"
+mongodb_container_name: "{{ mongodb_container_name | default('mongodb') }}"
+mongodb_port: "{{ mongodb_port | default(27017) }}"
+mongodb_data_dir: "{{ mongodb_data_dir | default('/data/mongodb') }}"
+mongodb_database: "{{ mongodb_database | default('ecommerce') }}"
