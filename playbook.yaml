@@ -1,6 +1,6 @@
 ---
 - name: Deploy E-commerce Application
-  hosts: all
+  hosts: myserver
   become: true
   vars_files:
     - vars/main.yml
