@@ -87,3 +87,95 @@ Reasoning:
 As shown in the screenshot above, our images are properly tagged and available for pull.
 
 Our images are publicly available on DockerHub under the repositories [jeanaush/img-a] and [jeanaush/img-b]
+
+## 9. Ansible deployment
+We use a YAML-formatted inventory file that defines a single host:
+
+- The host is named 'myserver' and represents a Vagrant-managed virtual machine.
+- We specify connection details including the SSH port, user, and private key file.
+
+Reasoning:
+
+- YAML format provides better readability and structure compared to INI format.
+- Detailed host configuration ensures reliable connection to the Vagrant VM.
+
+## 10. Playbook Structure
+Our main playbook is organized as follows:
+
+- It targets the 'myserver' host defined in the inventory.
+- We use roles to organize and modularize our tasks.
+- The playbook includes tasks for ensuring the Docker network exists and all containers are running.
+
+Reasoning:
+
+- Using roles improves code reusability and maintainability.
+- The structure allows for easy addition of new components or modifications to existing ones.
+
+## 11. Role-based Configuration
+We've defined three main roles:
+
+- MongoDB: For deploying and configuring the MongoDB container.
+- Backend: For deploying the backend service container.
+- client: For deploying the client service container.
+
+- Each role has its own variables defined in defaults/main.yml, allowing for easy customization.
+
+Reasoning:
+
+- Role-based structure allows for better organization and potential reuse in other projects.
+- Default variables provide flexibility while maintaining sensible defaults.
+
+## 12. Variable Management
+We use a combination of:
+
+- Global variables defined in vars/main.yml
+- Role-specific variables in each role's defaults/main.yml
+- The default() filter in role variables
+
+Reasoning:
+
+- This approach provides a good balance between global configuration and role-specific defaults.
+- It allows for easy overriding of variables when needed, without modifying role files.
+
+## 13. Docker Network Configuration
+We create a custom Docker network named 'yolo-network':
+
+- All containers are connected to this network.
+- This allows for inter-container communication using service names.
+
+Reasoning:
+
+- Custom network provides isolation from other Docker networks on the host.
+- Using service names for communication simplifies container orchestration.
+
+## 14. Container Deployment Strategy
+For each service (MongoDB, backend, client):
+
+- We pull the specified Docker image.
+- We start a container with appropriate configuration (network, ports, environment variables).
+- We implement a wait condition to ensure the service is ready before proceeding.
+
+Reasoning:
+
+- Pulling images ensures we have the latest version specified.
+- Wait conditions improve reliability by ensuring services are fully operational before dependent services start.
+
+## 15. Security Considerations
+
+- We've removed password authentication for MongoDB to simplify the local development setup.
+- The playbook uses `become: true` to ensure necessary permissions on the Vagrant VM.
+
+## 16. Debugging and Maintenance
+
+- Ansible's verbose mode can be used for debugging: ansible-playbook playbook.yml -vvv
+- Container logs can be viewed using docker logs <container_name>
+- The playbook can be re-run to ensure configuration or to update services.
+
+## 17. Deployment Process
+To deploy the application:
+
+- Ensure the Vagrant VM is up and running.
+- Run the Ansible playbook: ansible-playbook playbook.yml
+- Access the application via port forwarding set up in the Vagrantfile.
+
+This Ansible configuration provides a repeatable, automated process for deploying the e-commerce application, ensuring consistency across deployments and simplifying the setup process.
