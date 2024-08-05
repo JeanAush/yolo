@@ -1,11 +1,10 @@
----
 - name: Pull backend Docker image
-  docker_image:
+  community.docker.docker_image:
     name: "{{ backend_image }}"
     source: pull
 
 - name: Start backend container
-  docker_container:
+  community.docker.docker_container:
     name: "{{ backend_container_name }}"
     image: "{{ backend_image }}"
     state: started
@@ -16,7 +15,7 @@
     env:
       NODE_ENV: "{{ node_env }}"
       MONGO_URI: "mongodb://{{ mongodb_container_name }}:{{ mongodb_port }}/{{ mongodb_database }}"
-      PORT: "{{ backend_port }}"
+      PORT: "{{ backend_port | quote }}"  
 
 - name: Wait for backend to be ready
   uri:

@@ -34,7 +34,7 @@ const app = express();
 // Body parser middleware
 app.use(express.json());
 
-//
+// Multer setup
 app.use(upload.array());
 
 // Cors
@@ -42,6 +42,11 @@ app.use(cors());
 
 // Use Route
 app.use("/api/products", productRoute);
+
+// Health check endpoint
+app.get("/api/health", (req, res) => {
+  res.status(200).send("OK");
+});
 
 // Define the PORT
 const PORT = process.env.PORT || 5000;

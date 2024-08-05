@@ -1,8 +1,8 @@
 ---
-backend_image: "{{ backend_image | default('jeanaush/img-b:v2.0.3') }}"
-backend_container_name: "{{ backend_container_name | default('backend') }}"
-backend_port: "{{ backend_port | default(5000) }}"
+backend_image: "jeanaush/img-b:v2.0.0"
+backend_container_name: "backend-container"
+backend_port: 5000
 backend_env:
-  NODE_ENV: "{{ node_env | default('production') }}"
-  MONGO_URI: "mongodb://{{ mongodb_container_name | default('mongodb') }}:{{ mongodb_port | default(27017) }}/{{ mongodb_database | default('ecommerce') }}"
-  PORT: "{{ backend_port | default(5000) }}"
+  NODE_ENV: "production"
+  MONGO_URI: "mongodb://mongodb:27017/ecommerce"
+  PORT: "5000" 

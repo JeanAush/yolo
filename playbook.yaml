@@ -1,9 +1,9 @@
 ---
 - name: Deploy E-commerce Application
-  hosts: myserver
+  hosts: localhost
   become: true
   vars_files:
-    - vars/main.yml
+    - vars/main.yaml
 
   roles:
     - docker
@@ -28,7 +28,7 @@
 
     - name: Wait for application to be ready
       uri:
-        url: "http://localhost:{{ frontend_port }}"
+        url: "http://localhost:{{ client_port }}"
         status_code: 200
       register: result
       until: result.status == 200
