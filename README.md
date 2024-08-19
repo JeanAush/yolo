@@ -53,7 +53,7 @@ For deploying this Application on Google Kubernetes Engine (GKE) follow these st
  
  ## Deployment
  1. Clone this repository
- 2. Apply the Kubernetes manifests: `kubectl apply -f kubernetes/`
+ 2. Apply the Kubernetes manifests: `kubectl apply -f ...`
  3. Wait for all pods to be in the "Running" state: `kubectl get pods --watch`
  4. Access the application: 4. Access the application: `kubectl get services client`
 
