@@ -179,3 +179,52 @@ To deploy the application:
 - Access the application via port forwarding set up in the Vagrantfile.
 
 This Ansible configuration provides a repeatable, automated process for deploying the e-commerce application, ensuring consistency across deployments and simplifying the setup process.
+
+## Kubertnetes Deployment Explnanation
+ 1. Choice of kubernetes objects
+ We used the following Kubernetes objects:
+
+- **Deployments** for frontend and backend:
+  - Provides declarative updates and easy scaling.
+  - Suitable for stateless applications.
+
+- **StatefulSet** for MongoDB:
+  - Provides stable network identities and persistent storage.
+  - Crucial for maintaining database consistency.
+
+- **Services** for networking:
+  - LoadBalancer for frontend and backend to expose externally.
+  - ClusterIP for MongoDB for internal communication.
+
+2. Exposing Pods to Internet Traffic
+
+We used a LoadBalancer Service for the frontend to expose it to the internet. This:
+- Automatically creates an external load balancer.
+- Provides an external IP address for access.
+
+For internal communication, we used ClusterIP Services, which:
+- Provide stable internal IPs for service discovery.
+- Keep internal services isolated from external access.
+
+3. Persistent Storage
+
+We implemented persistent storage for MongoDB using:
+- PersistentVolumeClaims (PVCs) in the StatefulSet.
+- This ensures data persists even if the MongoDB pod is deleted or rescheduled.
+
+4. Git Workflow
+
+We followed a straightforward Git workflow:
+
+1. All development was done directly on the master branch.
+2. Each significant change or feature was committed with a descriptive commit message.
+3. We ensured that the master branch always contained a stable, working version of the project.
+4. Tagged significant versions (e.g., `v1.0.0`) for release management.
+
+This approach allowed for rapid development while maintaining a clear history of changes. However, for larger teams or more complex projects, a feature branch workflow might be more appropriate.
+
+5. Docker Image Tagging
+
+We used semantic versioning for Docker images:
+- Format: `username/image-name:vX.Y.Z`
+- Example: `jeanaush/img-a:v2.0.0`

@@ -36,8 +36,9 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: mongodb
+  name: yolo-mongodb
 spec:
+  type: ClusterIP
   selector:
     app: mongodb
   ports:
